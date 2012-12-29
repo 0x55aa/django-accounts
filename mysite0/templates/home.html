@@ -1,0 +1,22 @@
+﻿{% extends 'base.html' %}
+{% block title %}首页{% endblock %}
+
+
+{% block contend %}
+
+{% if user.is_authenticated %}
+<a href="#">{{user.username}}</a>
+<a href="/accounts/logout/">logout</a>
+<a href="/accounts/setting/">个人资料</a>
+<a href="/accounts/changepassword/">修改密码</a>
+{% else %}
+<a href="/accounts/register/">注册</a>
+<a href="/accounts/login/">登录</a>
+<br>
+<div><a href="/weblogin/weibo/"><img width="126" height="24" src="/static/sina.png"></a></div>
+<br>
+<br>
+<div><a href="/weblogin/qq/"><img width="126" height="24" src="/static/qq.png"></a></div>
+{% endif %}
+
+{% endblock %}

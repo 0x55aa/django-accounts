@@ -1,0 +1,114 @@
+﻿{% extends 'base.html' %}
+{% block title %}个人资料编辑{% endblock %}
+{% block head %}
+<script type="text/javascript">
+$(document).ready(function(){ 
+
+var cityname=$("#id_citycode").val();
+//$("#id_citycode").val("")
+$("#id_province").hide();
+$("#id_city").hide();
+$("#id_area").hide();
+$("#cityname").append(cityname+"<a href='#' id='change'>修改</a>");
+
+$("#change").click(function(){
+$("#id_province").show();
+$("#id_city").show();
+$("#id_area").show();
+$("#cityname").hide();
+});
+//省
+$("#id_province").change(function(){
+var citycode = $('#id_province').val();
+var url = "/accounts/city/"+citycode+"/";
+$.get(url,{},function(citys){
+var data=eval("("+citys+")");
+$("#id_city option").remove();
+for (var i = 0; i < data.length; i++) {
+$("#id_city").append("<option value='"+ data[i].code +"'>"+ data[i].name +"</option>");
+}
+});
+$("#id_citycode").val(citycode);
+});
+//城市
+$("#id_city").change(function(){
+var citycode = $('#id_city').val();
+var url = "/accounts/city/"+citycode+"/";
+$.get(url,{},function(citys){
+var data=eval("("+citys+")");
+$("#id_area option").remove();
+for (var i = 0; i < data.length; i++) {
+$("#id_area").append("<option value='"+ data[i].code +"'>"+ data[i].name +"</option>");
+}
+});
+$("#id_citycode").val(citycode);
+});
+//区
+$("#id_area").change(function(){
+var citycode = $('#id_area').val();
+$("#id_citycode").val(citycode);
+
+});
+
+
+
+});
+</script>    
+{% endblock %}
+
+{% block contend %}
+<form enctype="multipart/form-data" action="." method="post">{% csrf_token %}
+<p><label for="id_province">城市:</label>
+<select id="id_province" name="province">
+<option value="0">请选择</option>
+<option value="110000">北京市</option>
+<option value="120000">天津市</option>
+<option value="130000">河北省</option>
+<option value="140000">山西省</option>
+<option value="150000">内蒙古</option>
+<option value="210000">辽宁省</option>
+<option value="220000">吉林省</option>
+<option value="230000">黑龙江</option>
+<option value="310000">上海市</option>
+<option value="320000">江苏省</option>
+<option value="330000">浙江省</option>
+<option value="340000">安徽省</option>
+<option value="350000">福建省</option>
+<option value="360000">江西省</option>
+<option value="370000">山东省</option>
+<option value="410000">河南省</option>
+<option value="420000">湖北省</option>
+<option value="430000">湖南省</option>
+<option value="440000">广东省</option>
+<option value="450000">广  西</option>
+<option value="460000">海南省</option>
+<option value="500000">重庆市</option>
+<option value="510000">四川省</option>
+<option value="520000">贵州省</option>
+<option value="530000">云南省</option>
+<option value="540000">西  藏</option>
+<option value="610000">陕西省</option>
+<option value="620000">甘肃省</option>
+<option value="630000">青海省</option>
+<option value="640000">宁  夏</option>
+<option value="650000">新  疆</option>
+<option value="710000">台湾省</option>
+<option value="810000">香  港</option>
+<option value="820000">澳  门</option>
+</select>
+<select id="id_city" name="province">
+<option value="0">请选择</option>
+</select>
+<select id="id_area" name="province">
+<option value="0">请选择</option>
+</select>
+<span id='cityname'></span>
+</p>
+{{ form.as_p }} 
+<input type="submit" value="修改" />
+</form>
+
+<img src="/static{{photo}}" />
+<img src="/static{{id_cardpic}}" />
+
+{% endblock %}
